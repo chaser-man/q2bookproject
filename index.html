@@ -266,6 +266,63 @@
                 left: 0%;
             }
         }
+
+        .quiz-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            background-color: var(--color-spice);
+            color: var(--color-worm);
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: var(--color-spice-dark);
+            color: var(--color-sand);
+        }
+
+        .quiz-option.correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .quiz-results {
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-results.show {
+            display: block;
+        }
     </style>
 </head>
 
@@ -279,6 +336,7 @@
                 <li><a href="#themes">Themes</a></li>
                 <li><a href="#summary">Summary</a></li>
                 <li><a href="#analysis">Analysis</a></li>
+                <li><a href="#quiz">Quiz</a></li>
             </ul>
         </nav>
     </header>
@@ -433,6 +491,49 @@
                 </p>
             </div>
         </section>
+
+        <section id="quiz" class="container">
+            <h2>Test Your Knowledge</h2>
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    <h3>Question 1:</h3>
+                    <p>How many years after the original Dune is God Emperor of Dune set?</p>
+                    <div class="quiz-options">
+                        <button class="quiz-option" data-correct="true">3,500 years</button>
+                        <button class="quiz-option">1,000 years</button>
+                        <button class="quiz-option">2,500 years</button>
+                        <button class="quiz-option">5,000 years</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3>Question 2:</h3>
+                    <p>What is Leto II's hybrid form?</p>
+                    <div class="quiz-options">
+                        <button class="quiz-option">Human-spider</button>
+                        <button class="quiz-option" data-correct="true">Human-sandworm</button>
+                        <button class="quiz-option">Human-bird</button>
+                        <button class="quiz-option">Human-fish</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3>Question 3:</h3>
+                    <p>Who is Leto II's majordomo?</p>
+                    <div class="quiz-options">
+                        <button class="quiz-option">Duncan Idaho</button>
+                        <button class="quiz-option">Siona Atreides</button>
+                        <button class="quiz-option" data-correct="true">Moneo Atreides</button>
+                        <button class="quiz-option">Paul Atreides</button>
+                    </div>
+                </div>
+
+                <div id="quiz-results" class="quiz-results">
+                    <h3>Your Score: <span id="score">0</span>/3</h3>
+                    <button id="retry-quiz" class="cta-button">Try Again</button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -481,6 +582,49 @@
 
             window.addEventListener('scroll', animateOnScroll);
             animateOnScroll(); // Initial check on page load
+
+            // Quiz functionality
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            const quizResults = document.getElementById('quiz-results');
+            const scoreElement = document.getElementById('score');
+            const retryButton = document.getElementById('retry-quiz');
+            let score = 0;
+
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const parentQuestion = this.closest('.quiz-question');
+                    const options = parentQuestion.querySelectorAll('.quiz-option');
+                    
+                    options.forEach(opt => opt.classList.add('disabled'));
+                    
+                    if (this.dataset.correct === 'true') {
+                        this.classList.add('correct');
+                        score++;
+                    } else {
+                        this.classList.add('incorrect');
+                        options.forEach(opt => {
+                            if (opt.dataset.correct === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+
+                    // Check if all questions have been answered
+                    const answeredQuestions = document.querySelectorAll('.quiz-option.disabled').length / 4;
+                    if (answeredQuestions === 3) { // 3 questions total
+                        quizResults.classList.add('show');
+                        scoreElement.textContent = score;
+                    }
+                });
+            });
+
+            retryButton.addEventListener('click', () => {
+                score = 0;
+                quizResults.classList.remove('show');
+                quizOptions.forEach(option => {
+                    option.classList.remove('correct', 'incorrect', 'disabled');
+                });
+            });
         });
     </script>
 </body>
