@@ -36,10 +36,12 @@
             background-color: var(--color-worm);
             color: var(--color-sand);
             padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            width: 100%;
             z-index: 1000;
         }
+
 
         nav ul {
             display: flex;
@@ -63,7 +65,10 @@
         }
 
         .hero {
-            background-color: var(--color-spice-dark);
+            background-image: url('https://inkstickmedia.com/wp-content/uploads/2021/10/wolfgang-hasselmann-pVr6wvUneMk-unsplash-scaled-e1635730773197.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -72,40 +77,36 @@
             color: var(--color-sand);
         }
 
-        .hero-content {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 2rem;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+
+        .hero-banner {
+            position: relative;
         }
 
-        .hero-content:hover {
-            background-color: rgba(0, 0, 0, 0.8);
+        .hero-banner img {
+            width: 100%; /* Make the image responsive */
+            height: auto; /* Maintain aspect ratio */
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white; /* Text color */
+            text-align: center; /* Center text */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 20px; /* Padding around text */
+            border-radius: 10px; /* Rounded corners */
         }
 
         .cta-button {
             display: inline-block;
-            background-color: var(--color-spice);
-            color: var(--color-worm);
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: var(--color-sand);
+            padding: 10px 20px;
+            background-color: #d4b300; /* Button color */
+            color: white; /* Button text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            margin-top: 10px; /* Space above the button */
         }
 
         h2 {
@@ -343,10 +344,13 @@
 
     <main>
         <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Introducing: God Emperor of Dune</h1>
-                <p>A journey into Frank Herbert's epic science fiction masterpiece and 4th book in the best-selling Dune series</p>
-                <a href="#about" class="cta-button">Start Your Adventure</a>
+            <div class="hero-banner">
+                <img src="https://inkstickmedia.com/wp-content/uploads/2021/10/wolfgang-hasselmann-pVr6wvUneMk-unsplash-scaled-e1635730773197.jpg" alt="Hero Banner" />
+                <div class="hero-text">
+                    <h1>Introducing: God Emperor of Dune</h1>
+                    <p>A journey into Frank Herbert's epic science fiction masterpiece and 4th book in the best-selling Dune series</p>
+                    <!--<a href="#start" class="cta-button">Start Your Adventure</a>-->
+                </div>
             </div>
         </section>
 
@@ -542,6 +546,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            function smoothScrollTo(endY, duration) {
+                const startY = window.scrollY;
+                const distanceY = endY - startY;
+                let startTime = null;
+
+                function animation(currentTime) {
+                    if (startTime === null) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+
+                    window.scrollTo(0, startY + distanceY * progress);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            }
+
+            // Use the custom function to scroll after a brief delay
+            setTimeout(() => {
+                smoothScrollTo(150, 3000); // Scroll to 200px over 3000 milliseconds (3 seconds)
+            }, 100); // Delay in milliseconds to ensure content is loaded
+
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
 
