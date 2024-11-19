@@ -1,20 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>q2 project: God Emperor of Dune</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God Emperor of Dune - An Introduction</title>
+    <style>
+        :root {
+            --color-sand: #f5e6d3;
+            --color-spice: #c2a878;
+            --color-spice-dark: #8b4513;
+            --color-worm: #2c1e0f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--color-spice-dark);
+            background-color: var(--color-sand);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: var(--color-worm);
+            color: var(--color-sand);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: var(--color-sand);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--color-spice);
+        }
+
+        .hero {
+            background-color: var(--color-spice-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--color-sand);
+        }
+
+        .hero-content {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero-content:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-spice);
+            color: var(--color-worm);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--color-sand);
+        }
+
+        h2 {
+            color: var(--color-spice-dark);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .intro-box {
+            background-color: var(--color-spice);
+            color: var(--color-worm);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .character-grid,
+        .theme-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .character-card,
+        .theme-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .character-card:hover,
+        .theme-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .character-card h3,
+        .theme-item h3 {
+            color: var(--color-spice-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--color-spice-dark);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: var(--color-sand);
+            border: 4px solid var(--color-spice-dark);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -16px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            background-color: var(--color-spice);
+            border: none;
+            color: var(--color-worm);
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            background-color: var(--color-spice-dark);
+            color: var(--color-sand);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        footer {
+            background-color: var(--color-worm);
+            color: var(--color-sand);
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0%;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <header>
-        <h1>Welcome to My Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#characters">Characters</a></li>
+                <li><a href="#themes">Themes</a></li>
+                <li><a href="#summary">Summary</a></li>
+                <li><a href="#analysis">Analysis</a></li>
+            </ul>
+        </nav>
     </header>
-    
+
     <main>
-        <p>This is a simple HTML boilerplate example.</p>
-        <img src="data:image/jpeg;base64,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"></img>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Introducing: God Emperor of Dune</h1>
+                <p>A journey into Frank Herbert's epic science fiction masterpiece and 4th book in the best-selling Dune series</p>
+                <a href="#about" class="cta-button">Start Your Adventure</a>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <h2>About the Dune Universe</h2>
+            <div class="intro-box">
+                <p>Welcome to the world of Dune! If you're new to this universe, here's what you need to know:</p>
+                <ul>
+                    <li>Dune is a science fiction series set in the distant future</li>
+                    <li>It takes place on various planets, with a focus on the desert planet Arrakis (also called Dune)
+                    </li>
+                    <li>The story revolves around politics, religion, ecology, and human evolution</li>
+                    <li>A key element is "spice melange," a substance that extends life, enhances mental abilities, and is required for space travel.
+                    </li>
+                </ul>
+            </div>
+            <h2>About the Book</h2>
+            <p>
+                "God Emperor of Dune," published in 1981, is the fourth novel in Frank Herbert's Dune series.
+                It's set 3,500 years after the events of the first book, which is why it might feel very different
+                from what you've heard about Dune before. The story focuses on Leto II Atreides, who has become a
+                human-sandworm hybrid and rules as the God Emperor over the known universe.
+            </p>
+        </section>
+
+        <section id="characters" class="container">
+            <h2>Major Characters</h2>
+            <div class="character-grid">
+                <div class="character-card">
+                    <h3>Leto II Atreides</h3>
+                    <p>The God Emperor, a human-sandworm hybrid who has ruled for 3,500 years. He's trying to guide
+                        humanity on a path he believes will ensure its survival.</p>
+                </div>
+                <div class="character-card">
+                    <h3>Siona Atreides</h3>
+                    <p>A descendant of the Atreides family and leader of a rebellion against Leto II. She represents the
+                        human desire for freedom from Leto's control.</p>
+                </div>
+                <div class="character-card">
+                    <h3>Duncan Idaho</h3>
+                    <p>A series of clones (called "gholas" in the Dune universe) serving Leto II. Each has the memories
+                        of the original Duncan Idaho, a loyal friend to the Atreides family.</p>
+                </div>
+                <div class="character-card">
+                    <h3>Moneo Atreides</h3>
+                    <p>Leto's majordomo (chief steward) and the father of Siona. He's caught between loyalty to Leto
+                        and concern for humanity's future.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="themes" class="container">
+            <h2>Key Themes</h2>
+            <div class="theme-list">
+                <div class="theme-item">
+                    <h3>Power and Corruption</h3>
+                    <p>The book explores how even well-intentioned absolute power can lead to oppression and stagnation.
+                    </p>
+                </div>
+                <div class="theme-item">
+                    <h3>Freedom vs. Stability</h3>
+                    <p>It examines the tension between individual liberty and societal stability, asking if one must be
+                        sacrificed for the other.</p>
+                </div>
+                <div class="theme-item">
+                    <h3>Religion and Myth</h3>
+                    <p>The story looks at how religious beliefs and myths can be used to control society and shape
+                        history.</p>
+                </div>
+                <div class="theme-item">
+                    <h3>Human Evolution</h3>
+                    <p>It considers the future of human development, both physical and social, and the role of genetic
+                        manipulation in that process.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="summary" class="container">
+            <h2>Summary</h2>
+            <p>
+                <i>God Emperor of Dune</i> is set 3,500 years after the original Dune story. Leto II Atreides, now a
+                human-sandworm hybrid, rules the known universe as the God Emperor. His reign, maintained through
+                his ability to see possible futures and his control over the vital spice melange, faces challenges
+                from those who seek freedom from his oppressive peace.
+            </p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Before the Book</h4>
+                    <p>Leto II begins his transformation into the God Emperor</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Start of the Story</h4>
+                    <p>The God Emperor's rule is firmly established</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Main Events</h4>
+                    <p>Challenges to Leto's rule begin to emerge</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Rising Action</h4>
+                    <p>Siona's rebellion gains momentum</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Climax and Aftermath</h4>
+                    <p>The fate of Leto II and the future of humanity is decided</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis" class="container">
+            <h2>Analysis</h2>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="literary">Literary Analysis</button>
+                <button class="tab-button" data-tab="philosophical">Philosophical Themes</button>
+                <button class="tab-button" data-tab="political">Political Commentary</button>
+            </div>
+            <div class="tab-content active" id="literary">
+                <h3>Literary Analysis</h3>
+                <p>
+                    "God Emperor of Dune" marks a significant shift in the Dune series. Unlike the earlier books,
+                    which followed a more traditional hero's journey, this novel explores the long-term consequences
+                    of the previous heroes' actions. The book's structure, with its philosophical discussions and
+                    limited action, mirrors the stagnation of the universe under Leto's rule.
+                </p>
+            </div>
+            <div class="tab-content" id="philosophical">
+                <h3>Philosophical Themes</h3>
+                <p>
+                    At its core, the book is a deep dive into questions of power, free will, and human nature.
+                    It asks whether it's right to sacrifice individual freedom for the greater good of humanity's
+                    survival. The novel also explores ideas about consciousness, identity, and the nature of time
+                    and history.
+                </p>
+            </div>
+            <div class="tab-content" id="political">
+                <h3>Political Commentary</h3>
+                <p>
+                    The book can be seen as a critique of authoritarian rule. Even though Leto II believes he's
+                    acting for humanity's benefit, his reign is shown to be oppressive and ultimately harmful to
+                    human development. This reflects real-world concerns about the dangers of concentrated power
+                    and the importance of individual liberty.
+                </p>
+            </div>
+        </section>
     </main>
-    
+
     <footer>
-        <p>&copy; 2024 Chase Nielsen. All rights reserved.</p>
+        <p>&copy; 2024 God Emperor of Dune Project. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    button.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Animate elements on scroll
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.character-card, .theme-item, .timeline-item');
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementBottom = element.getBoundingClientRect().bottom;
+                    if (elementTop < window.innerHeight && elementBottom > 0) {
+                        element.classList.add('animate');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Initial check on page load
+        });
+    </script>
 </body>
+
 </html>
